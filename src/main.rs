@@ -1,37 +1,14 @@
-use std::ops::{Add, Mul, Sub};
+mod ops;
+use ops::*;
 
 #[derive(Debug, Eq, PartialEq, PartialOrd, Ord)]
-struct Decimal {
+pub struct Decimal {
     int: String,
     float: String
 }
 
-impl Add for Decimal {
-    type Output = Self;
-
-    fn add(self, _other: Self) -> Self {
-        todo!()
-    }
-}
-
-impl Sub for Decimal {
-    type Output = Self;
-
-    fn sub(self, _other: Self) -> Self {
-        todo!()
-    }
-}
-
-impl Mul for Decimal {
-    type Output = Self;
-
-    fn mul(self, _other: Self) -> Self {
-        todo!()
-    }
-}
-
 impl Decimal {
-    fn try_from(input: &str) -> Option<Decimal> {
+    pub fn try_from(input: &str) -> Option<Decimal> {
         let dots = input.matches('.').count();
         if dots != 1 {
             return None;
@@ -47,6 +24,7 @@ impl Decimal {
 
 
 fn main() {
-    let d = Decimal::try_from("3.14");
-    println!("{:?}", d);
+    let d1 = Decimal::try_from("10.99");
+    let d2 = Decimal::try_from("3.879");
+    println!("{:?}", d1.unwrap() + d2.unwrap());
 }
