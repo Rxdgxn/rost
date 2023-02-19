@@ -22,9 +22,9 @@ impl Decimal {
     }
 }
 
-
-fn main() {
+#[test]
+fn test1() {
     let d1 = Decimal::try_from("10.99");
     let d2 = Decimal::try_from("3.879");
-    println!("{:?}", d1.unwrap() + d2.unwrap());
+    assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("14.869").unwrap());
 }
