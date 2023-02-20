@@ -9,6 +9,19 @@ macro_rules! nth {
     };
 }
 
+fn update(src: String, it: usize, push: &str) -> String {
+    let mut ret = String::new();
+    for (i, c) in src.chars().enumerate() {
+        if i == it {
+            ret.push_str(push);
+        }
+        else {
+            ret.push(c);
+        }
+    }
+    ret
+}
+
 impl Add for Decimal {
     type Output = Self;
     // TODO: use macros to avoid repetition + handle '-'
@@ -35,17 +48,17 @@ impl Add for Decimal {
                 to_replace %= 10;
                 extra += 1;
             }
-            float = float.replace(float.chars().nth(fl_it).unwrap(), &to_replace.to_string()); // TODO
+            float = update(float, fl_it, &to_replace.to_string());
             fl_it -= 1;
         }
         let mut to_replace = (nth!(float, fl_it) + nth!(other.float, fl_it) - 96 + extra) % 10;
         if to_replace > 9 {
             to_replace %= 10;
             extra += 1;
-            float = float.replace(float.chars().nth(0).unwrap(), &(extra.to_string() + &to_replace.to_string())); // TODO
+            float = update(float, 0, &(extra.to_string() + &to_replace.to_string()));
         }
         else {
-            float = float.replace(float.chars().nth(0).unwrap(), &to_replace.to_string()); // TODO
+            float = update(float, 0, &to_replace.to_string());
         }
         
         if diff == 0 {
@@ -56,17 +69,17 @@ impl Add for Decimal {
                     to_replace %= 10;
                     extra += 1;
                 }
-                int = int.replace(int.chars().nth(int_it).unwrap(), &to_replace.to_string()); // TODO
+                int = update(int, int_it, &to_replace.to_string());
                 int_it -= 1;
             }
             let mut to_replace = (nth!(int, int_it) + nth!(other.int, int_it) - 96 + extra) % 10;
             if to_replace > 9 {
                 to_replace %= 10;
                 extra += 1;
-                int = int.replace(int.chars().nth(0).unwrap(), &(extra.to_string() + &to_replace.to_string())); // TODO
+                int = update(int, 0, &(extra.to_string() + &to_replace.to_string()));
             }
             else {
-                int = int.replace(int.chars().nth(0).unwrap(), &to_replace.to_string()); // TODO
+                int = update(int, 0, &to_replace.to_string());
             }
         }
         else {
@@ -77,7 +90,7 @@ impl Add for Decimal {
                     to_replace %= 10;
                     extra += 1;
                 }
-                int = int.replace(int.chars().nth(int_it).unwrap(), &to_replace.to_string()); // TODO
+                int = update(int, int_it, &to_replace.to_string());
                 int_it -= 1;
             }
             while int_it > 0 {
@@ -87,17 +100,17 @@ impl Add for Decimal {
                     to_replace %= 10;
                     extra += 1;
                 }
-                int = int.replace(int.chars().nth(int_it).unwrap(), &to_replace.to_string()); // TODO
+                int = update(int, int_it, &to_replace.to_string());
                 int_it -= 1;
             }
             let mut to_replace = (nth!(int, int_it) - 48) % 10 + extra;
             if to_replace > 9 {
                 to_replace %= 10;
                 extra += 1;
-                int = int.replace(int.chars().nth(0).unwrap(), &(extra.to_string() + &to_replace.to_string())); // TODO
+                int = update(int, 0, &(extra.to_string() + &to_replace.to_string()));
             }
             else {
-                int = int.replace(int.chars().nth(0).unwrap(), &to_replace.to_string()); // TODO
+                int = update(int, 0, &to_replace.to_string());
             }
         }
         
