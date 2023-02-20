@@ -24,7 +24,21 @@ impl Decimal {
 
 #[test]
 fn test1() {
-    let d1 = Decimal::try_from("10.99");
-    let d2 = Decimal::try_from("3.879");
-    assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("14.869").unwrap());
+    let d1 = Decimal::try_from("1.0");
+    let d2 = Decimal::try_from("2.0");
+    assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("3.0").unwrap());
+}
+
+#[test]
+fn test2() {
+    let d1 = Decimal::try_from("189.99");
+    let d2 = Decimal::try_from("342.879");
+    assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("532.869").unwrap());
+}
+
+#[test]
+fn test3() {
+    let d1 = Decimal::try_from("12.9");
+    let d2 = Decimal::try_from("3.05");
+    assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("15.95").unwrap());
 }
