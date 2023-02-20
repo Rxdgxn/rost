@@ -42,3 +42,17 @@ fn test3() {
     let d2 = Decimal::try_from("3.05");
     assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("15.95").unwrap());
 }
+
+#[test]
+fn test4() {
+    let d1 = Decimal::try_from("99.9");
+    let d2 = Decimal::try_from("66.05");
+    assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("165.95").unwrap());
+}
+
+#[test]
+fn test5() {
+    let d1 = Decimal::try_from("99.9");
+    let d2 = Decimal::try_from("6.05");
+    assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("105.95").unwrap());
+}

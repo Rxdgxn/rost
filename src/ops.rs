@@ -72,15 +72,8 @@ impl Add for Decimal {
                 int = update(int, int_it, &to_replace.to_string());
                 int_it -= 1;
             }
-            let mut to_replace = (nth!(int, int_it) + nth!(other.int, int_it) - 96 + extra) % 10;
-            if to_replace > 9 {
-                to_replace %= 10;
-                extra += 1;
-                int = update(int, 0, &(extra.to_string() + &to_replace.to_string()));
-            }
-            else {
-                int = update(int, 0, &to_replace.to_string());
-            }
+            let to_replace = nth!(int, int_it) + nth!(other.int, int_it) - 96 + extra;
+            int = update(int, 0, &to_replace.to_string());
         }
         else {
             while int_it >= diff {
@@ -103,15 +96,8 @@ impl Add for Decimal {
                 int = update(int, int_it, &to_replace.to_string());
                 int_it -= 1;
             }
-            let mut to_replace = (nth!(int, int_it) - 48) % 10 + extra;
-            if to_replace > 9 {
-                to_replace %= 10;
-                extra += 1;
-                int = update(int, 0, &(extra.to_string() + &to_replace.to_string()));
-            }
-            else {
-                int = update(int, 0, &to_replace.to_string());
-            }
+            let to_replace = nth!(int, int_it) - 48 + extra;
+            int = update(int, 0, &to_replace.to_string());
         }
         
         Self {
