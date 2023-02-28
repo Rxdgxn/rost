@@ -1,10 +1,34 @@
 mod ops;
 use ops::*;
 
-#[derive(Debug, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Debug)]
 pub struct Decimal {
     int: String,
     float: String
+}
+
+impl PartialEq for Decimal {
+    fn eq(&self, other: &Self) -> bool {
+        self.int == other.int && self.float == other.float
+    }
+}
+
+impl PartialOrd for Decimal {
+    fn gt(&self, _other: &Self) -> bool {
+        todo!()
+    }
+    fn lt(&self, _other: &Self) -> bool {
+        todo!()
+    }
+    fn ge(&self, _other: &Self) -> bool {
+        todo!()
+    }
+    fn le(&self, _other: &Self) -> bool {
+        todo!()
+    }
+    fn partial_cmp(&self, _other: &Self) -> Option<std::cmp::Ordering> {
+        todo!()
+    }
 }
 
 impl Decimal {
