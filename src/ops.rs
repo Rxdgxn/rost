@@ -110,8 +110,25 @@ impl Add for Decimal {
 impl Sub for Decimal {
     type Output = Self;
 
-    fn sub(self, _other: Self) -> Self {
-        todo!()
+    fn sub(mut self, mut other: Self) -> Self {
+        if self.float.len() < other.float.len() {
+            swap(&mut self.float, &mut other.float);
+        }
+        let mut float = self.float;
+        let mut fl_it = min(float.len(), other.float.len()) - 1;
+        
+        if self.int.len() < other.int.len() {
+            swap(&mut self.int, &mut other.int);
+        }
+        let mut int = self.int;
+        let mut int_it = max(int.len(), other.int.len()) - 1;
+        
+        // TODO
+        
+        Self {
+            int,
+            float
+        }
     }
 }
 

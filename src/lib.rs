@@ -1,7 +1,13 @@
 mod ops;
 use ops::*;
 
-#[derive(Debug)]
+macro_rules! nth {
+    ($src: expr, $it: expr) => {
+        $src.chars().nth($it).unwrap()
+    };
+}
+
+#[derive(Debug, Eq)]
 pub struct Decimal {
     int: String,
     float: String
@@ -13,9 +19,31 @@ impl PartialEq for Decimal {
     }
 }
 
+impl Ord for Decimal {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.int.cmp(&other.int).then(self.float.cmp(&other.float))
+    }
+}
+
 impl PartialOrd for Decimal {
-    fn gt(&self, _other: &Self) -> bool {
-        todo!()
+    fn gt(&self, other: &Self) -> bool {
+        if nth!(self.int, 0) != '-' && nth!(other.int, 0) != '-' {
+            if self.int != other.int {
+                return self.int > other.int;
+            }
+            else {
+                return self.float > other.float;
+            }
+        }
+        else if nth!(self.int, 0) == '-' && nth!(other.int, 0) != '-' {
+            return false;
+        }
+        else if nth!(self.int, 0) != '-' && nth!(other.int, 0) == '-' {
+            return true;
+        }
+        else {
+            return other.gt(self);
+        }
     }
     fn lt(&self, _other: &Self) -> bool {
         todo!()
@@ -26,8 +54,8 @@ impl PartialOrd for Decimal {
     fn le(&self, _other: &Self) -> bool {
         todo!()
     }
-    fn partial_cmp(&self, _other: &Self) -> Option<std::cmp::Ordering> {
-        todo!()
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 
@@ -79,4 +107,11 @@ fn test5() {
     let d1 = Decimal::try_from("99.9");
     let d2 = Decimal::try_from("6.05");
     assert_eq!(d1.unwrap() + d2.unwrap(), Decimal::try_from("105.95").unwrap());
+}
+
+#[test]
+fn test6() {
+    let d1 = Decimal::try_from("6.01");
+    let d2 = Decimal::try_from("6.0");
+    assert_eq!(d1.gt(&d2), true);
 }
