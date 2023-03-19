@@ -22,6 +22,17 @@ fn update(src: String, it: usize, push: &str) -> String {
     ret
 }
 
+pub fn dezeroise(src: &String) -> String {
+    if src.len() == 1 {
+        return src.to_string();
+    }
+    let mut it = src.len() - 1;
+    while src.chars().nth(it).unwrap() == '0' && it > 1 {
+        it -= 1;
+    }
+    return String::from(&src[0..it]);
+}
+
 impl Add for Decimal {
     type Output = Self;
     // TODO: use macros to avoid repetition + handle '-'

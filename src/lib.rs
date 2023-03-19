@@ -15,7 +15,7 @@ pub struct Decimal {
 
 impl PartialEq for Decimal {
     fn eq(&self, other: &Self) -> bool {
-        self.int == other.int && self.float == other.float
+        self.int == other.int && dezeroise(&self.float) == dezeroise(&other.float)
     }
 }
 
@@ -45,14 +45,30 @@ impl PartialOrd for Decimal {
             return other.gt(self);
         }
     }
-    fn lt(&self, _other: &Self) -> bool {
-        todo!()
+    fn lt(&self, other: &Self) -> bool {
+        if nth!(self.int, 0) != '-' && nth!(other.int, 0) != '-' {
+            if self.int != other.int {
+                return self.int < other.int;
+            }
+            else {
+                return self.float < other.float;
+            }
+        }
+        else if nth!(self.int, 0) == '-' && nth!(other.int, 0) != '-' {
+            return true;
+        }
+        else if nth!(self.int, 0) != '-' && nth!(other.int, 0) == '-' {
+            return false;
+        }
+        else {
+            return other.lt(self);
+        }
     }
-    fn ge(&self, _other: &Self) -> bool {
-        todo!()
+    fn ge(&self, other: &Self) -> bool {
+        return self >= other;
     }
-    fn le(&self, _other: &Self) -> bool {
-        todo!()
+    fn le(&self, other: &Self) -> bool {
+        return self <= other
     }
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         Some(self.cmp(other))
@@ -111,7 +127,14 @@ fn test5() {
 
 #[test]
 fn test6() {
+    let d1 = Decimal::try_from("6.00");
+    let d2 = Decimal::try_from("6.0");
+    assert_eq!(d1 == d2, true);
+}
+
+#[test]
+fn test7() {
     let d1 = Decimal::try_from("6.01");
     let d2 = Decimal::try_from("6.0");
-    assert_eq!(d1.gt(&d2), true);
+    assert_eq!(d1 >= d2, true);
 }
